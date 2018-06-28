@@ -7,6 +7,7 @@
 //
 
 #import "CLCacheManager.h"
+#import <CommonCrypto/CommonDigest.h>
 #import <zlib.h>
 
 
@@ -145,13 +146,21 @@
  @return 加密后数据
  */
 + (NSData *)encryptionWithData:(NSData *)data key:(NSString *)key{
+    //压缩数据
     NSData *baseData = [[self gzippedDataWithCompressionLevel:0.1 data:data] base64EncodedDataWithOptions:0];
-    NSString *baseString = [[NSString alloc]initWithData:baseData encoding:NSUTF8StringEncoding];
-    NSString *newKey = [key substringToIndex:1];
-    NSString *string = [[newKey stringByAppendingString:newKey] stringByAppendingString:baseString];
+    //转化为字符串
+    NSMutableString *baseString = [[NSMutableString alloc]initWithData:baseData encoding:NSUTF8StringEncoding];
+    //加盐MD5-32位大写key
+    NSString *newKey = [[self MD5ForUpper32Bate:key] stringByAppendingString:@"JmoVixa"];
+    //MD5-32位大写key + MD5-32位小写key + 压缩后数据字符串
+    NSString *string = [[newKey stringByAppendingString:[self MD5ForLower32Bate:newKey]] stringByAppendingString:baseString];
+    //base64加密
     NSData *newData = [[string dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
+    //转化为字符串
     NSString *newString = [[NSString alloc]initWithData:newData encoding:NSUTF8StringEncoding];
-    NSString *lastString = [newKey stringByAppendingString:newString];
+    //MD5-16位大写 + 转化后的字符串 + MD5-16位小写
+    NSString *lastString = [[[self MD5ForUpper16Bate:newKey] stringByAppendingString:newString] stringByAppendingString:[self MD5ForLower16Bate:newKey]];
+    //返回base64加密数据
     return [[lastString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
 }
 
@@ -163,15 +172,87 @@
  @return 解密后数据
  */
 + (NSData *)decryptWithData:(NSData *)data key:(NSString *)key{
+    //解base64数据
     NSData *lastData = [[NSData alloc] initWithBase64EncodedData:data options:0];
+    //转化为字符串
     NSString *lastString = [[NSString alloc]initWithData:lastData encoding:NSUTF8StringEncoding];
-    NSString *newString = [lastString substringFromIndex:1];
+    //去除MD5-16位大写
+    NSString *string = [lastString substringFromIndex:[self MD5ForUpper16Bate:key].length];
+    //去除MD5-16位小写
+    NSString *newString = [string substringToIndex:(string.length - [self MD5ForLower16Bate:key].length)];
+    //解base64数据
     NSData *newData = [[NSData alloc] initWithBase64EncodedData:[newString dataUsingEncoding:NSUTF8StringEncoding] options:0];
-    NSString *string = [[NSString alloc]initWithData:newData encoding:NSUTF8StringEncoding];
-    NSString *string1 = [string substringFromIndex:2];
+    //去除MD5-32位大写key + MD5-32位小写key，得到压缩后的字符串
+    NSString *string1 = [[[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding] substringFromIndex:[[[self MD5ForUpper32Bate:key] stringByAppendingString:@"JmoVxia"] stringByAppendingString:[self MD5ForLower32Bate:key]].length];
+    //转化为data
     NSData *data1 = [string1 dataUsingEncoding:NSUTF8StringEncoding];
     return [self gunzippedData:[[NSData alloc] initWithBase64EncodedData:data1 options:0]];
 }
+
+/**
+ 32位 小写
+ */
++(NSString *)MD5ForLower32Bate:(NSString *)str{
+    
+    //要进行UTF8的转码
+    const char* input = [str UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(input, (CC_LONG)strlen(input), result);
+    
+    NSMutableString *digest = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (NSInteger i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [digest appendFormat:@"%02x", result[i]];
+    }
+    
+    return digest;
+}
+
+/**
+ 32位 大写
+ */
++(NSString *)MD5ForUpper32Bate:(NSString *)str{
+    
+    //要进行UTF8的转码
+    const char* input = [str UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(input, (CC_LONG)strlen(input), result);
+    
+    NSMutableString *digest = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (NSInteger i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [digest appendFormat:@"%02X", result[i]];
+    }
+    
+    return digest;
+}
+
+/**
+ 16位 大写
+ */
++(NSString *)MD5ForUpper16Bate:(NSString *)str{
+    
+    NSString *md5Str = [self MD5ForUpper32Bate:str];
+    
+    NSString  *string;
+    for (int i=0; i<24; i++) {
+        string=[md5Str substringWithRange:NSMakeRange(8, 16)];
+    }
+    return string;
+}
+
+/**
+ 16位 小写
+ */
++(NSString *)MD5ForLower16Bate:(NSString *)str{
+    
+    NSString *md5Str = [self MD5ForLower32Bate:str];
+    
+    NSString  *string;
+    for (int i=0; i<24; i++) {
+        string=[md5Str substringWithRange:NSMakeRange(8, 16)];
+    }
+    return string;
+}
+
 //MARK:JmoVxia---按等级压缩（0-1）
 + (nullable NSData *)gzippedDataWithCompressionLevel:(float)level data:(NSData *)data{
     if (data.length == 0 || [self isGzippedData:data])

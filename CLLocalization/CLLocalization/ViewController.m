@@ -26,14 +26,14 @@
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     
-//    NSDictionary *ddd = [aa mj_keyValues];
+    NSDictionary *ddd = [aa mj_keyValues];
     
     for (NSInteger i = 0; i <= 10000; i++) {
         
         [dic setObject:aa forKey:[NSString stringWithFormat:@"%ld",(long)i]];
     }
     NSLog(@"------------------------------");
-    [CLCacheManager setDic:dic forKey:@"AA"];
+    [CLCacheManager setDic:dic forKey:@"AAAAAAAA"];
     NSLog(@"------------------------------");
 
     NSLog(@"%@",NSHomeDirectory());
@@ -41,7 +41,7 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
-    NSDictionary *dic = [CLCacheManager objectForkey:@"AA"];
+    NSArray *dic = [CLCacheManager arrayForKey:@"AAAAAAAA"];
     NSLog(@"%@",dic);
 }
 
