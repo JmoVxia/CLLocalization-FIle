@@ -120,22 +120,12 @@
 
 // data --> dic
 + (NSDictionary *)dataToDic_Data:(NSData *)data {
-    if ([NSJSONSerialization isValidJSONObject:data]) {
-        return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    }else {
-        //解档
-        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    }
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
 // dic ---> data
 + (NSData *)dicToData_Dic:(NSDictionary *)dic {
-    if ([NSJSONSerialization isValidJSONObject:dic]) {
-        return [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    }else {
-        //归档
-        return [NSKeyedArchiver archivedDataWithRootObject:dic];
-    }
+    return [NSKeyedArchiver archivedDataWithRootObject:dic];
 }
 
 /**

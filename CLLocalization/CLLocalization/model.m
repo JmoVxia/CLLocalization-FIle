@@ -11,7 +11,12 @@
 
 
 @implementation model
-
+-(instancetype)init{
+    if (self = [super init]) {
+        self.model = [newModel new];
+    }
+    return self;
+}
 
 MJCodingImplementation
 

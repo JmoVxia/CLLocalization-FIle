@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C57311220E5E24F00406072 /* newModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C57311120E5E24F00406072 /* newModel.m */; };
 		0C596F3020E4C027008C11C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F2F20E4C027008C11C7 /* AppDelegate.m */; };
 		0C596F3320E4C027008C11C7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F3220E4C027008C11C7 /* ViewController.m */; };
 		0C596F3620E4C027008C11C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C596F3420E4C027008C11C7 /* Main.storyboard */; };
@@ -29,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C57311020E5E24F00406072 /* newModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = newModel.h; sourceTree = "<group>"; };
+		0C57311120E5E24F00406072 /* newModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = newModel.m; sourceTree = "<group>"; };
 		0C596F2B20E4C027008C11C7 /* CLLocalization.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLLocalization.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C596F2E20E4C027008C11C7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0C596F2F20E4C027008C11C7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -102,6 +105,8 @@
 				0C596F6120E4C053008C11C7 /* CLCacheManager.m */,
 				0C596F8620E4C218008C11C7 /* model.h */,
 				0C596F8520E4C217008C11C7 /* model.m */,
+				0C57311020E5E24F00406072 /* newModel.h */,
+				0C57311120E5E24F00406072 /* newModel.m */,
 				0C596F2E20E4C027008C11C7 /* AppDelegate.h */,
 				0C596F2F20E4C027008C11C7 /* AppDelegate.m */,
 				0C596F3120E4C027008C11C7 /* ViewController.h */,
@@ -215,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C57311220E5E24F00406072 /* newModel.m in Sources */,
 				0C596F7A20E4C09F008C11C7 /* MJPropertyType.m in Sources */,
 				0C596F8420E4C09F008C11C7 /* MJFoundation.m in Sources */,
 				0C596F7E20E4C09F008C11C7 /* MJExtensionConst.m in Sources */,

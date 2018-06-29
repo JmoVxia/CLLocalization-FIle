@@ -23,12 +23,12 @@
     aa.name = @"AAA";
     aa.isVideo = YES;
     aa.date = [@"testdata" dataUsingEncoding:NSUTF8StringEncoding];
-    
+    aa.model.name = @"BBB";
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     
-    NSDictionary *ddd = [aa mj_keyValues];
+//    NSDictionary *ddd = [aa mj_keyValues];
     
-    for (NSInteger i = 0; i <= 10000; i++) {
+    for (NSInteger i = 0; i <= 1000; i++) {
         
         [dic setObject:aa forKey:[NSString stringWithFormat:@"%ld",(long)i]];
     }
@@ -41,7 +41,7 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
-    NSArray *dic = [CLCacheManager arrayForKey:@"AAAAAAAA"];
+    NSDictionary *dic = [CLCacheManager objectForkey:@"AAAAAAAA"];
     NSLog(@"%@",dic);
 }
 

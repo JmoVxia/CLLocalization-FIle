@@ -7,13 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "newModel.h"
 
 
-
-@interface model : NSObject 
+@interface model : NSObject  
 
 @property(nonatomic,copy)NSString *name;
 @property(nonatomic,assign)BOOL isVideo;
 @property(nonatomic,strong)NSData *date;
+/*newmodel*/
+@property (nonatomic, strong) newModel *model;
+
+
 
 @end
