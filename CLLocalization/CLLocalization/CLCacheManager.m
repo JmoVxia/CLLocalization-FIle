@@ -117,16 +117,34 @@
     }
 }
 
-
 // data --> dic
 + (NSDictionary *)dataToDic_Data:(NSData *)data {
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    if (!data) {
+        return nil;
+    }
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    if (!dic) {
+        //解档
+        dic = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+    return dic;
 }
 
 // dic ---> data
 + (NSData *)dicToData_Dic:(NSDictionary *)dic {
-    return [NSKeyedArchiver archivedDataWithRootObject:dic];
+    if (!dic) {
+        return nil;
+    }
+    NSData *data;
+    if ([NSJSONSerialization isValidJSONObject:dic]) {
+        data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    }else {
+        //归档
+        data = [NSKeyedArchiver archivedDataWithRootObject:dic];
+    }
+    return data;
 }
+
 
 /**
  加密
