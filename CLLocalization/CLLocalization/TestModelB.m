@@ -1,14 +1,16 @@
 //
-//  newModel.m
+//  TestModelB.m
 //  CLLocalization
 //
-//  Created by ios1 on 2018/6/29.
+//  Created by ios1 on 2018/7/21.
 //  Copyright © 2018年 JmoVxia. All rights reserved.
 //
 
-#import "newModel.h"
+#import "TestModelB.h"
 #import "MJExtension.h"
-@implementation newModel
+
+
+@implementation TestModelB
 
 MJCodingImplementation
 

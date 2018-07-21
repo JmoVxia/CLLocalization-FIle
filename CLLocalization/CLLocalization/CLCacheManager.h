@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@interface CLCache : NSObject
+
+@end
+
 @interface CLCacheManager : NSObject
 
 /**

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C57311220E5E24F00406072 /* newModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C57311120E5E24F00406072 /* newModel.m */; };
 		0C596F3020E4C027008C11C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F2F20E4C027008C11C7 /* AppDelegate.m */; };
 		0C596F3320E4C027008C11C7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F3220E4C027008C11C7 /* ViewController.m */; };
 		0C596F3620E4C027008C11C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C596F3420E4C027008C11C7 /* Main.storyboard */; };
@@ -26,12 +25,11 @@
 		0C596F8220E4C09F008C11C7 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F7420E4C09F008C11C7 /* MJPropertyKey.m */; };
 		0C596F8320E4C09F008C11C7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C596F7820E4C09F008C11C7 /* Info.plist */; };
 		0C596F8420E4C09F008C11C7 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F7920E4C09F008C11C7 /* MJFoundation.m */; };
-		0C596F8720E4C218008C11C7 /* model.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F8520E4C217008C11C7 /* model.m */; };
+		0C91996321030E0C005D3A6A /* TestModelA.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C91996221030E0C005D3A6A /* TestModelA.m */; };
+		0C91996621030E18005D3A6A /* TestModelB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C91996521030E18005D3A6A /* TestModelB.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C57311020E5E24F00406072 /* newModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = newModel.h; sourceTree = "<group>"; };
-		0C57311120E5E24F00406072 /* newModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = newModel.m; sourceTree = "<group>"; };
 		0C596F2B20E4C027008C11C7 /* CLLocalization.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLLocalization.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C596F2E20E4C027008C11C7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0C596F2F20E4C027008C11C7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -66,8 +64,10 @@
 		0C596F7720E4C09F008C11C7 /* NSObject+MJCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJCoding.h"; sourceTree = "<group>"; };
 		0C596F7820E4C09F008C11C7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C596F7920E4C09F008C11C7 /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
-		0C596F8520E4C217008C11C7 /* model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = model.m; sourceTree = "<group>"; };
-		0C596F8620E4C218008C11C7 /* model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
+		0C91996121030E0C005D3A6A /* TestModelA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestModelA.h; sourceTree = "<group>"; };
+		0C91996221030E0C005D3A6A /* TestModelA.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestModelA.m; sourceTree = "<group>"; };
+		0C91996421030E18005D3A6A /* TestModelB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestModelB.h; sourceTree = "<group>"; };
+		0C91996521030E18005D3A6A /* TestModelB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestModelB.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,10 +103,10 @@
 				0C596F6320E4C09F008C11C7 /* MJExtension */,
 				0C596F6020E4C053008C11C7 /* CLCacheManager.h */,
 				0C596F6120E4C053008C11C7 /* CLCacheManager.m */,
-				0C596F8620E4C218008C11C7 /* model.h */,
-				0C596F8520E4C217008C11C7 /* model.m */,
-				0C57311020E5E24F00406072 /* newModel.h */,
-				0C57311120E5E24F00406072 /* newModel.m */,
+				0C91996121030E0C005D3A6A /* TestModelA.h */,
+				0C91996221030E0C005D3A6A /* TestModelA.m */,
+				0C91996421030E18005D3A6A /* TestModelB.h */,
+				0C91996521030E18005D3A6A /* TestModelB.m */,
 				0C596F2E20E4C027008C11C7 /* AppDelegate.h */,
 				0C596F2F20E4C027008C11C7 /* AppDelegate.m */,
 				0C596F3120E4C027008C11C7 /* ViewController.h */,
@@ -220,18 +220,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C57311220E5E24F00406072 /* newModel.m in Sources */,
 				0C596F7A20E4C09F008C11C7 /* MJPropertyType.m in Sources */,
 				0C596F8420E4C09F008C11C7 /* MJFoundation.m in Sources */,
 				0C596F7E20E4C09F008C11C7 /* MJExtensionConst.m in Sources */,
 				0C596F3320E4C027008C11C7 /* ViewController.m in Sources */,
 				0C596F7C20E4C09F008C11C7 /* MJProperty.m in Sources */,
 				0C596F6220E4C053008C11C7 /* CLCacheManager.m in Sources */,
-				0C596F8720E4C218008C11C7 /* model.m in Sources */,
 				0C596F7D20E4C09F008C11C7 /* NSObject+MJCoding.m in Sources */,
 				0C596F8020E4C09F008C11C7 /* NSObject+MJClass.m in Sources */,
 				0C596F3E20E4C028008C11C7 /* main.m in Sources */,
 				0C596F8120E4C09F008C11C7 /* NSString+MJExtension.m in Sources */,
+				0C91996621030E18005D3A6A /* TestModelB.m in Sources */,
+				0C91996321030E0C005D3A6A /* TestModelA.m in Sources */,
 				0C596F7F20E4C09F008C11C7 /* NSObject+MJProperty.m in Sources */,
 				0C596F7B20E4C09F008C11C7 /* NSObject+MJKeyValue.m in Sources */,
 				0C596F8220E4C09F008C11C7 /* MJPropertyKey.m in Sources */,

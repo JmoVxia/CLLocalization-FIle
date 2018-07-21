@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "CLCacheManager.h"
-#import "model.h"
+#import "TestModelA.h"
 #import "MJExtension.h"
 @interface ViewController ()
 
@@ -19,23 +19,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    model *aa = [model new];
-    aa.name = @"AAA";
-    aa.isVideo = YES;
-    aa.date = [@"testdata" dataUsingEncoding:NSUTF8StringEncoding];
-    aa.model.name = @"BBB";
+    TestModelA *model = [TestModelA new];
+    model.name = @"AAA";
+    model.isVideo = YES;
+    model.date = [@"testdata" dataUsingEncoding:NSUTF8StringEncoding];
+    model.model.name = @"BBB";
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    
-//    NSDictionary *ddd = [aa mj_keyValues];
-    
-    for (NSInteger i = 0; i <= 1000; i++) {
-        
-        [dic setObject:aa forKey:[NSString stringWithFormat:@"%ld",(long)i]];
+    for (NSInteger i = 0; i <= 100; i++) {
+        [dic setObject:model forKey:[NSString stringWithFormat:@"%ld",(long)i]];
     }
-    NSLog(@"------------------------------");
     [CLCacheManager setDic:dic forKey:@"AAAAAAAA"];
-    NSLog(@"------------------------------");
-
     NSLog(@"%@",NSHomeDirectory());
 }
 

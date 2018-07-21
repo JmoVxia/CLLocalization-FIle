@@ -11,7 +11,7 @@
 #import <zlib.h>
 
 
-@interface CLCache : NSObject
+@interface CLCache ()
 
 /**
  储存
@@ -98,8 +98,8 @@
 
 + (void) setObject:(NSData*)data forKey:(NSString*)key {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filename = [self.cacheDirectory stringByAppendingPathComponent:key];
-    
+    NSString *filename = [self.cacheDirectory stringByAppendingPathComponent:[key stringByAppendingString:@".cache"]] ;
+    NSLog(@"缓存文件地址------------%@",filename);
     BOOL isDir = YES;
     if (![fileManager fileExistsAtPath:self.cacheDirectory isDirectory:&isDir]) {
         //不是文件夹，创建
@@ -110,12 +110,13 @@
     @try {
         //写入文件
         NSData *newData = [self encryptionWithData:data key:key];
-        [newData writeToFile:[filename stringByAppendingString:@".cache"] options:NSDataWritingAtomic error:&error];
+        [newData writeToFile:filename options:NSDataWritingAtomic error:&error];
     }
     @catch (NSException * e) {
         //TODO: error handling maybe
     }
 }
+
 
 // data --> dic
 + (NSDictionary *)dataToDic_Data:(NSData *)data {
@@ -145,7 +146,6 @@
     return data;
 }
 
-
 /**
  加密
  
@@ -155,7 +155,7 @@
  */
 + (NSData *)encryptionWithData:(NSData *)data key:(NSString *)key{
     //压缩数据
-    NSData *baseData = [[self gzippedDataWithCompressionLevel:0.1 data:data] base64EncodedDataWithOptions:0];
+    NSData *baseData = [[self gzippedDataWithCompressionLevel:0.1f data:data] base64EncodedDataWithOptions:0];
     //转化为字符串
     NSMutableString *baseString = [[NSMutableString alloc]initWithData:baseData encoding:NSUTF8StringEncoding];
     //加盐MD5-32位大写key
