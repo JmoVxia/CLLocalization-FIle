@@ -268,7 +268,18 @@
 ```
 # 其他
 
-博客地址------>[简书](https://www.jianshu.com/p/a146df5a1a28)
+博客地址
+
+[简书](https://www.jianshu.com/p/a146df5a1a28)
+
+[掘金](https://juejin.im/post/5b6359845188251acc2327a1)
+
+
+
+
+
+
+
 
 
 
