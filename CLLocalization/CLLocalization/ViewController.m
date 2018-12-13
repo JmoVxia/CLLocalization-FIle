@@ -25,11 +25,11 @@
     model.date = [@"testdata" dataUsingEncoding:NSUTF8StringEncoding];
     model.model.name = @"BBB";
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    for (NSInteger i = 0; i <= 100; i++) {
-        [dic setObject:model forKey:[NSString stringWithFormat:@"%ld",(long)i]];
-    }
+//    for (NSInteger i = 0; i <= 100; i++) {
+//        [dic setObject:model forKey:[NSString stringWithFormat:@"%ld",(long)i]];
+//    }
+    dic = model.mj_keyValues;
     [CLCacheManager setDic:dic forKey:@"AAAAAAAA"];
-    NSLog(@"%@",NSHomeDirectory());
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

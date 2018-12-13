@@ -23,7 +23,6 @@
 		0C596F8020E4C09F008C11C7 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F7220E4C09F008C11C7 /* NSObject+MJClass.m */; };
 		0C596F8120E4C09F008C11C7 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F7320E4C09F008C11C7 /* NSString+MJExtension.m */; };
 		0C596F8220E4C09F008C11C7 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F7420E4C09F008C11C7 /* MJPropertyKey.m */; };
-		0C596F8320E4C09F008C11C7 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C596F7820E4C09F008C11C7 /* Info.plist */; };
 		0C596F8420E4C09F008C11C7 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C596F7920E4C09F008C11C7 /* MJFoundation.m */; };
 		0C91996321030E0C005D3A6A /* TestModelA.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C91996221030E0C005D3A6A /* TestModelA.m */; };
 		0C91996621030E18005D3A6A /* TestModelB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C91996521030E18005D3A6A /* TestModelB.m */; };
@@ -206,7 +205,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C596F8320E4C09F008C11C7 /* Info.plist in Resources */,
 				0C596F3B20E4C028008C11C7 /* LaunchScreen.storyboard in Resources */,
 				0C596F3820E4C028008C11C7 /* Assets.xcassets in Resources */,
 				0C596F3620E4C027008C11C7 /* Main.storyboard in Resources */,
