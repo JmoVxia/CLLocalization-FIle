@@ -159,7 +159,7 @@
     //转化为字符串
     NSMutableString *baseString = [[NSMutableString alloc]initWithData:baseData encoding:NSUTF8StringEncoding];
     //加盐MD5-32位大写key
-    NSString *newKey = [[self MD5ForUpper32Bate:key] stringByAppendingString:@"JmoVixa"];
+    NSString *newKey = [self MD5ForUpper32Bate:key];
     //MD5-32位大写key + MD5-32位小写key + 压缩后数据字符串
     NSString *string = [[newKey stringByAppendingString:[self MD5ForLower32Bate:newKey]] stringByAppendingString:baseString];
     //base64加密
@@ -191,7 +191,7 @@
     //解base64数据
     NSData *newData = [[NSData alloc] initWithBase64EncodedData:[newString dataUsingEncoding:NSUTF8StringEncoding] options:0];
     //去除MD5-32位大写key + MD5-32位小写key，得到压缩后的字符串
-    NSString *string1 = [[[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding] substringFromIndex:[[[self MD5ForUpper32Bate:key] stringByAppendingString:@"JmoVxia"] stringByAppendingString:[self MD5ForLower32Bate:key]].length];
+    NSString *string1 = [[[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding] substringFromIndex:[[self MD5ForUpper32Bate:key] stringByAppendingString:[self MD5ForLower32Bate:key]].length];
     //转化为data
     NSData *data1 = [string1 dataUsingEncoding:NSUTF8StringEncoding];
     return [self gunzippedData:[[NSData alloc] initWithBase64EncodedData:data1 options:0]];
