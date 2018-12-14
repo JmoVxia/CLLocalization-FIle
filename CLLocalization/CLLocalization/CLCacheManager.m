@@ -8,6 +8,7 @@
 
 #import "CLCacheManager.h"
 #import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonCryptor.h>
 #import <zlib.h>
 
 
@@ -153,23 +154,12 @@
  @param key 关键词
  @return 加密后数据
  */
-+ (NSData *)encryptionWithData:(NSData *)data key:(NSString *)key{
-    //压缩数据
++ (NSData *)encryptionWithData:(NSData *)data key:(NSString *)key {
     NSData *baseData = [[self gzippedDataWithCompressionLevel:0.1f data:data] base64EncodedDataWithOptions:0];
-    //转化为字符串
     NSMutableString *baseString = [[NSMutableString alloc]initWithData:baseData encoding:NSUTF8StringEncoding];
-    //加盐MD5-32位大写key
-    NSString *newKey = [self MD5ForUpper32Bate:key];
-    //MD5-32位大写key + MD5-32位小写key + 压缩后数据字符串
-    NSString *string = [[newKey stringByAppendingString:[self MD5ForLower32Bate:newKey]] stringByAppendingString:baseString];
-    //base64加密
-    NSData *newData = [[string dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
-    //转化为字符串
-    NSString *newString = [[NSString alloc]initWithData:newData encoding:NSUTF8StringEncoding];
-    //MD5-16位大写 + 转化后的字符串 + MD5-16位小写
-    NSString *lastString = [[[self MD5ForUpper16Bate:newKey] stringByAppendingString:newString] stringByAppendingString:[self MD5ForLower16Bate:newKey]];
-    //返回base64加密数据
-    return [[lastString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
+    NSString *newKey = [self MD5ForUpper16Bate:[key stringByAppendingString:@"JmoVxia"]];
+    NSString *encryptionString = [self AES128Encrypt:baseString key:newKey];
+    return [[encryptionString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
 }
 
 /**
@@ -179,22 +169,107 @@
  @param key 关键词
  @return 解密后数据
  */
-+ (NSData *)decryptWithData:(NSData *)data key:(NSString *)key{
-    //解base64数据
++ (NSData *)decryptWithData:(NSData *)data key:(NSString *)key {
     NSData *lastData = [[NSData alloc] initWithBase64EncodedData:data options:0];
-    //转化为字符串
     NSString *lastString = [[NSString alloc]initWithData:lastData encoding:NSUTF8StringEncoding];
-    //去除MD5-16位大写
-    NSString *string = [lastString substringFromIndex:[self MD5ForUpper16Bate:key].length];
-    //去除MD5-16位小写
-    NSString *newString = [string substringToIndex:(string.length - [self MD5ForLower16Bate:key].length)];
-    //解base64数据
-    NSData *newData = [[NSData alloc] initWithBase64EncodedData:[newString dataUsingEncoding:NSUTF8StringEncoding] options:0];
-    //去除MD5-32位大写key + MD5-32位小写key，得到压缩后的字符串
-    NSString *string1 = [[[NSString alloc] initWithData:newData encoding:NSUTF8StringEncoding] substringFromIndex:[[self MD5ForUpper32Bate:key] stringByAppendingString:[self MD5ForLower32Bate:key]].length];
-    //转化为data
-    NSData *data1 = [string1 dataUsingEncoding:NSUTF8StringEncoding];
-    return [self gunzippedData:[[NSData alloc] initWithBase64EncodedData:data1 options:0]];
+    NSString *newKey = [self MD5ForUpper16Bate:[key stringByAppendingString:@"JmoVxia"]];
+    NSString *string = [self AES128Decrypt:lastString key:newKey];
+    NSData *decryptData = [string dataUsingEncoding:NSUTF8StringEncoding];
+    if (decryptData) {
+        return [self gunzippedData:[[NSData alloc] initWithBase64EncodedData:decryptData options:0]];
+    }else {
+        return nil;
+    }
+}
+
++(NSString *)AES128Encrypt:(NSString *)plainText key:(NSString *)key {
+    char keyPtr[kCCKeySizeAES128 + 1];
+    memset(keyPtr, 0, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    
+    char ivPtr[kCCBlockSizeAES128 + 1];
+    memset(ivPtr, 0, sizeof(ivPtr));
+    [key getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
+    
+    NSData* data = [plainText dataUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger dataLength = [data length];
+    
+    int diff = kCCKeySizeAES128 - (dataLength % kCCKeySizeAES128);
+    NSInteger newSize = 0;
+    
+    if(diff > 0)
+    {
+        newSize = dataLength + diff;
+    }
+    
+    char dataPtr[newSize];
+    memcpy(dataPtr, [data bytes], [data length]);
+    for(int i = 0; i < diff; i++)
+    {
+        dataPtr[i + dataLength] = 0x00;
+    }
+    
+    size_t bufferSize = newSize + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+    
+    size_t numBytesCrypted = 0;
+    
+    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
+                                          kCCAlgorithmAES128,
+                                          0x0000,               //No padding
+                                          keyPtr,
+                                          kCCKeySizeAES128,
+                                          ivPtr,
+                                          dataPtr,
+                                          sizeof(dataPtr),
+                                          buffer,
+                                          bufferSize,
+                                          &numBytesCrypted);
+    
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
+        return [resultData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    }
+    free(buffer);
+    return nil;
+}
+
++(NSString *)AES128Decrypt:(NSString *)encryptText key:(NSString *)key
+{
+    char keyPtr[kCCKeySizeAES128 + 1];
+    memset(keyPtr, 0, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    
+    char ivPtr[kCCBlockSizeAES128 + 1];
+    memset(ivPtr, 0, sizeof(ivPtr));
+    [key getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
+    NSData *data = [[NSData alloc] initWithBase64EncodedData:[encryptText dataUsingEncoding:NSUTF8StringEncoding] options:0];
+    NSUInteger dataLength = [data length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    
+    size_t numBytesCrypted = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
+                                          kCCAlgorithmAES128,
+                                          0x0000,
+                                          keyPtr,
+                                          kCCBlockSizeAES128,
+                                          ivPtr,
+                                          [data bytes],
+                                          dataLength,
+                                          buffer,
+                                          bufferSize,
+                                          &numBytesCrypted);
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
+        NSString *hexString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\0"];
+        NSString *trimmedString = [hexString stringByTrimmingCharactersInSet:set];
+        return trimmedString;
+    }
+    free(buffer);
+    return nil;
 }
 
 /**
